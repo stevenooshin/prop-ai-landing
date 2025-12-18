@@ -110,16 +110,20 @@
         }
 
         /* Input Styling */
-        input[type="text"], input[type="email"], input[type="tel"], select {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        input[type="text"], input[type="email"], input[type="tel"], textarea, select {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: white;
             transition: all 0.3s;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
         }
-        input:focus, select:focus {
+        input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: #025EE1;
             box-shadow: 0 0 0 2px rgba(2, 94, 225, 0.2);
+            background: rgba(0, 0, 0, 0.6);
         }
 
         #canvas-container {
@@ -142,7 +146,7 @@
             min-height: 100%;
             z-index: 0;
             object-fit: cover;
-            opacity: 0.5;
+            opacity: 0.4;
         }
     </style>
 </head>
@@ -155,7 +159,7 @@
     </video>
 
     <!-- Dark Overlay -->
-    <div class="fixed inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/90 to-[#025EE1]/20 z-0"></div>
+    <div class="fixed inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/95 to-[#025EE1]/10 z-0"></div>
 
     <!-- 3D Particles -->
     <div id="canvas-container"></div>
@@ -163,8 +167,7 @@
     <!-- Navigation -->
     <nav class="w-full py-6 px-6 md:px-12 flex justify-between items-center z-50 relative">
         <a href="https://prop-ai.com/" class="flex items-center gap-2 hover:opacity-80 transition group">
-            <!-- LOGO HOLDER: Name your file "logo.png" -->
-            <img id="logo" src="logo.png" alt="Prop-AI" class="h-10 w-auto object-contain hidden group-hover:opacity-80" onload="this.classList.remove('hidden'); this.nextElementSibling.classList.add('hidden')" onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')">
+            <img src="logo.png" alt="Prop-AI" class="h-10 w-auto object-contain hidden group-hover:opacity-80" onload="this.classList.remove('hidden'); this.nextElementSibling.classList.add('hidden')" onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')">
             <div class="flex items-center gap-2">
                 <div class="w-10 h-10 bg-[#025EE1] rounded-lg flex items-center justify-center font-bold text-xl text-white font-display">P</div>
                 <span class="font-display font-bold text-2xl tracking-tight text-white">Prop-AI</span>
@@ -177,89 +180,170 @@
     </nav>
 
     <!-- Main Content Area -->
-    <main id="app" class="flex-grow flex flex-col items-center justify-center relative px-4 pb-12 w-full max-w-7xl mx-auto z-10">
+    <main id="app" class="flex-grow flex flex-col items-center justify-center relative px-4 w-full max-w-7xl mx-auto z-10">
         
         <!-- VIEW 1: LANDING PAGE -->
-        <div id="landing-view" class="w-full min-h-[80vh] flex flex-col items-center justify-center text-center transition-all duration-500 py-12">
+        <div id="landing-view" class="w-full flex flex-col items-center justify-center text-center transition-all duration-500 py-12 space-y-24">
             
-            <div class="max-w-5xl mx-auto text-center space-y-8 animate-float">
-                <h1 class="font-display text-5xl md:text-7xl font-bold leading-tight drop-shadow-2xl">
-                    Real Estate Ownership. <br/>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#025EE1] to-white">Simplified with AI.</span>
+            <!-- Hero Section -->
+            <div class="max-w-4xl mx-auto text-center space-y-8 animate-float min-h-[70vh] flex flex-col justify-center">
+                <h1 class="font-display text-4xl md:text-6xl font-bold leading-tight drop-shadow-2xl">
+                    Frustrated by conflicting advice and <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#025EE1] to-white">pushy salespeople?</span>
                 </h1>
 
-                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-10 max-w-4xl mx-auto transform hover:scale-[1.01] transition-all shadow-2xl relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-[#025EE1]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[#025EE1]/20 transition-all"></div>
-                    
-                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 relative z-10">
-                        Frustrated by fake listings and missed opportunities?
-                    </h2>
-                    
-                    <div class="h-px w-24 bg-[#025EE1] mx-auto mb-6"></div>
-
-                    <p class="text-gray-300 leading-relaxed mb-6 text-lg">
-                        Take our data-driven 15-question assessment to discover exactly what you need to know before investing and get clear, pressure-free guidance tailored to your situation.
-                    </p>
-                    
-                    <p class="text-white font-medium text-lg bg-black/30 p-4 rounded-xl border border-white/5">
-                        "Answer 15 questions to receive your personalized <span class="text-[#025EE1]">Dubai Investment Clarity Report</span> — no sales pitch, just honest insights based on your goals."
-                    </p>
-                </div>
-
-                <div class="flex flex-wrap justify-center gap-3 md:gap-6 text-sm font-bold text-white tracking-wide uppercase">
-                    <span class="flex items-center gap-2 px-4 py-2 bg-[#025EE1]/20 rounded-full border border-[#025EE1]/30 backdrop-blur-md">
-                        <i data-lucide="clock" class="w-4 h-4 text-[#025EE1]"></i> Takes 3 minutes
-                    </span>
-                    <span class="flex items-center gap-2 px-4 py-2 bg-[#025EE1]/20 rounded-full border border-[#025EE1]/30 backdrop-blur-md">
-                        <i data-lucide="zap" class="w-4 h-4 text-[#025EE1]"></i> Immediate Recommendations
-                    </span>
-                    <span class="flex items-center gap-2 px-4 py-2 bg-[#025EE1]/20 rounded-full border border-[#025EE1]/30 backdrop-blur-md">
-                        <i data-lucide="check-circle" class="w-4 h-4 text-[#025EE1]"></i> Completely free
-                    </span>
-                </div>
+                <p class="text-gray-300 leading-relaxed text-lg md:text-xl max-w-2xl mx-auto">
+                    Answer the questions to discover exactly what you need to know before investing and get clear, pressure-free guidance tailored to your situation.
+                </p>
 
                 <div class="pt-6">
-                    <button onclick="startQuiz()" class="group relative px-12 py-6 bg-[#025EE1] text-white font-bold rounded-xl overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_50px_-10px_rgba(2,94,225,0.6)]">
+                    <button onclick="showLeadForm()" class="group relative px-12 py-6 bg-[#025EE1] text-white font-bold rounded-xl overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_50px_-10px_rgba(2,94,225,0.6)]">
                         <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                         <span class="relative flex items-center gap-3 text-xl md:text-2xl">
-                            Start Free Assessment <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                            Get Started <i data-lucide="arrow-right" class="w-6 h-6"></i>
                         </span>
                     </button>
-                    <p class="text-xs text-gray-500 mt-3 uppercase tracking-widest">No credit card required</p>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-6 text-left max-w-5xl mx-auto pt-10 border-t border-white/10 mt-10">
-                    <div class="p-6 rounded-xl bg-black/40 backdrop-blur-sm border border-white/5 hover:bg-black/60 transition duration-300">
-                        <div class="w-12 h-12 rounded-lg bg-[#025EE1]/20 flex items-center justify-center text-[#025EE1] mb-4">
-                            <i data-lucide="database" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="font-bold text-white text-lg mb-2">Stop Guessing</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed">Most investors rely on gut feeling. We use 2 Billion+ data points to validate your strategy against real market conditions.</p>
-                    </div>
-                    <div class="p-6 rounded-xl bg-black/40 backdrop-blur-sm border border-white/5 hover:bg-black/60 transition duration-300">
-                        <div class="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 mb-4">
-                            <i data-lucide="shield-off" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="font-bold text-white text-lg mb-2">Avoid "Ghost" Listings</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed">Our AI filters out 28,000+ fake ads weekly so you only see real opportunities and real prices.</p>
-                    </div>
-                    <div class="p-6 rounded-xl bg-black/40 backdrop-blur-sm border border-white/5 hover:bg-black/60 transition duration-300">
-                        <div class="w-12 h-12 rounded-lg bg-teal-500/20 flex items-center justify-center text-teal-400 mb-4">
-                            <i data-lucide="trending-up" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="font-bold text-white text-lg mb-2">Maximize Your ROI</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed">Get a clear, unbiased picture of potential rental yields and capital appreciation before you sign anything.</p>
-                    </div>
                 </div>
             </div>
 
+            <!-- How It Works Section -->
+            <div class="w-full max-w-6xl mx-auto text-center space-y-12">
+                <h2 class="font-display text-3xl font-bold text-white uppercase tracking-wider">How it works</h2>
+                
+                <div class="grid md:grid-cols-3 gap-8 text-left">
+                    <!-- Step 1 -->
+                    <div class="glass-panel p-8 rounded-2xl border-t-4 border-[#025EE1] relative group hover:-translate-y-2 transition-transform duration-300">
+                        <div class="absolute -top-6 left-8 w-12 h-12 bg-[#025EE1] rounded-xl flex items-center justify-center font-bold text-2xl shadow-lg">1</div>
+                        <h3 class="mt-4 text-xl font-bold text-white mb-2">Answer 15 Questions</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Simple questions that reveal your market knowledge, readiness, and strategy.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="glass-panel p-8 rounded-2xl border-t-4 border-purple-500 relative group hover:-translate-y-2 transition-transform duration-300">
+                        <div class="absolute -top-6 left-8 w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center font-bold text-2xl shadow-lg">2</div>
+                        <h3 class="mt-4 text-xl font-bold text-white mb-2">Receive Your Results</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Once you have finished, your answers are run through our algorithm and reviewed by a Prop-AI advisor.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="glass-panel p-8 rounded-2xl border-t-4 border-teal-500 relative group hover:-translate-y-2 transition-transform duration-300">
+                        <div class="absolute -top-6 left-8 w-12 h-12 bg-teal-600 rounded-xl flex items-center justify-center font-bold text-2xl shadow-lg">3</div>
+                        <h3 class="mt-4 text-xl font-bold text-white mb-2">Action Steps</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">We assess your answers and will provide the next steps based on the knowledge and strategy readiness.</p>
+                    </div>
+                </div>
+
+                <p class="text-gray-400 max-w-2xl mx-auto italic">"We use these three areas to bridge the gap between your current position and investment goals."</p>
+
+                <button onclick="showLeadForm()" class="px-8 py-4 border border-white/20 hover:bg-white/10 rounded-full transition text-sm font-bold uppercase tracking-widest">Take the assessment</button>
+            </div>
+
+            <!-- Created By / Advantage Section -->
+            <div class="w-full max-w-6xl mx-auto text-left space-y-16 pb-20">
+                <div class="border-t border-white/10 pt-16">
+                    <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-12 text-center">Created by Prop-AI: <br/><span class="text-gray-400 text-2xl">Where Technology Meets Expert Property Advisory</span></h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <!-- Left: Our Advantage -->
+                        <div class="space-y-6">
+                            <h3 class="text-xl font-bold text-[#025EE1] uppercase tracking-widest flex items-center gap-2"><i data-lucide="shield"></i> Our Advantage</h3>
+                            <ul class="space-y-4">
+                                <li class="flex gap-4 items-start">
+                                    <div class="w-1.5 h-1.5 bg-[#025EE1] rounded-full mt-2 shrink-0"></div>
+                                    <p class="text-gray-300"><strong class="text-white">Data-First Approach:</strong> We leverage advanced market analytics to identify genuine opportunities - not just what's easy to sell.</p>
+                                </li>
+                                <li class="flex gap-4 items-start">
+                                    <div class="w-1.5 h-1.5 bg-[#025EE1] rounded-full mt-2 shrink-0"></div>
+                                    <p class="text-gray-300"><strong class="text-white">Honest Guidance:</strong> Our advisors focus on fit, not volume. Your success is our metric.</p>
+                                </li>
+                                <li class="flex gap-4 items-start">
+                                    <div class="w-1.5 h-1.5 bg-[#025EE1] rounded-full mt-2 shrink-0"></div>
+                                    <p class="text-gray-300"><strong class="text-white">Industry Partnerships:</strong> Direct relationships with Dubai's leading developers and Dubai Land Department (DLD) projects give us unique market access.</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Right: Dubai Advantage -->
+                        <div class="space-y-6">
+                            <h3 class="text-xl font-bold text-purple-500 uppercase tracking-widest flex items-center gap-2"><i data-lucide="globe"></i> The Dubai Advantage</h3>
+                            <ul class="space-y-4">
+                                <li class="flex gap-4 items-start">
+                                    <div class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 shrink-0"></div>
+                                    <p class="text-gray-300">Dubai's property market delivered <strong class="text-white">XX% average growth</strong> in last 3 years, outpacing most global markets.</p>
+                                </li>
+                                <li class="flex gap-4 items-start">
+                                    <div class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 shrink-0"></div>
+                                    <p class="text-gray-300">Rental yields of <strong class="text-white">6-8% in prime locations</strong> - double typical UK returns.</p>
+                                </li>
+                                <li class="flex gap-4 items-start">
+                                    <div class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 shrink-0"></div>
+                                    <p class="text-gray-300">£X billion in international investment during 2024, with UK buyers consistently in the top 5.</p>
+                                </li>
+                                <li class="flex gap-4 items-start">
+                                    <div class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 shrink-0"></div>
+                                    <p class="text-gray-300"><strong class="text-white">Tax-efficient structure:</strong> Zero property tax, zero rental income tax for foreign investors.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Final CTA -->
+                <div class="text-center space-y-6 pt-12">
+                    <h3 class="text-2xl font-bold text-white">Start the journey to property investing success in Dubai.</h3>
+                    <button onclick="showLeadForm()" class="group relative inline-flex items-center gap-2 px-10 py-5 bg-white text-black font-bold rounded-xl overflow-hidden transition-all hover:scale-105 active:scale-95">
+                        Start your journey <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                    <p class="text-sm text-gray-500 font-medium">It's free and only takes 3 mins!</p>
+                </div>
+            </div>
         </div>
 
-        <!-- VIEW 2: QUIZ INTERFACE -->
-        <div id="quiz-view" class="w-full max-w-2xl hidden opacity-0 transition-opacity duration-500">
+        <!-- VIEW 2: LEAD CAPTURE FORM -->
+        <div id="lead-view" class="w-full h-full hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+            <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="hideLeadForm()"></div>
+            <div class="glass-panel p-8 md:p-12 rounded-3xl w-full max-w-md relative animate-float">
+                <button onclick="hideLeadForm()" class="absolute top-4 right-4 text-gray-500 hover:text-white"><i data-lucide="x"></i></button>
+                
+                <div class="text-center mb-8">
+                    <div class="w-12 h-12 bg-[#025EE1]/20 rounded-full flex items-center justify-center mx-auto mb-4 text-[#025EE1]">
+                        <i data-lucide="user-check" class="w-6 h-6"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold font-display">Let's get started</h2>
+                    <p class="text-sm text-gray-400 mt-2">Enter your details to begin the assessment.</p>
+                </div>
+
+                <form onsubmit="submitLead(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Full Name</label>
+                        <input type="text" required placeholder="John Doe">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Email Address</label>
+                        <input type="email" required placeholder="john@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Phone Number</label>
+                        <input type="tel" required placeholder="+44 7700 900000">
+                    </div>
+                    
+                    <button type="submit" class="w-full py-4 bg-[#025EE1] text-white font-bold rounded-xl hover:bg-blue-600 transition shadow-lg mt-2">
+                        Continue to Questions
+                    </button>
+                    
+                    <p class="text-xs text-center text-gray-500 mt-4 flex items-center justify-center gap-1">
+                        <i data-lucide="lock" class="w-3 h-3"></i> We will only call if you request a consultation!
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <!-- VIEW 3: QUIZ INTERFACE -->
+        <div id="quiz-view" class="w-full max-w-2xl hidden opacity-0 transition-opacity duration-500 pb-20 pt-12">
+            <!-- Progress Header -->
             <div class="mb-8">
                 <div class="flex justify-between items-end mb-2">
-                    <span class="text-sm font-medium text-blue-400 tracking-wider">ASSESSMENT IN PROGRESS</span>
+                    <span class="text-sm font-medium text-blue-400 tracking-wider">ASSESSMENT</span>
                     <span id="progress-text" class="text-2xl font-display font-bold text-white">0%</span>
                 </div>
                 <div class="w-full h-1 bg-gray-800 rounded-full overflow-hidden">
@@ -267,18 +351,24 @@
                 </div>
             </div>
 
+            <!-- Question Card -->
             <div class="glass-panel p-8 md:p-12 rounded-3xl relative min-h-[400px] flex flex-col justify-center">
                 <div id="question-container" class="transition-all duration-300"></div>
-                <div class="mt-8 flex justify-between items-center opacity-0 pointer-events-none transition-opacity duration-300" id="nav-controls">
+                
+                <div class="mt-8 flex justify-between items-center" id="nav-controls">
                     <button onclick="prevQuestion()" class="text-gray-500 hover:text-white transition flex items-center gap-2 text-sm font-medium">
                         <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+                    </button>
+                    <!-- Next button for multi-select/text inputs -->
+                    <button id="next-btn" onclick="nextQuestion()" class="hidden px-6 py-2 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition">
+                        Next
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- VIEW 3: LOADING -->
-        <div id="processing-view" class="hidden flex-col items-center justify-center text-center">
+        <!-- VIEW 4: PROCESSING -->
+        <div id="processing-view" class="hidden flex-col items-center justify-center text-center h-[60vh]">
             <div class="relative w-32 h-32 mb-8">
                 <div class="absolute inset-0 rounded-full border-t-2 border-b-2 border-[#025EE1] animate-spin"></div>
                 <div class="absolute inset-4 rounded-full border-r-2 border-l-2 border-purple-500 animate-spin reverse"></div>
@@ -286,17 +376,16 @@
                     <i data-lucide="cpu" class="w-8 h-8 text-white animate-pulse"></i>
                 </div>
             </div>
-            <h2 class="text-2xl font-display font-bold mb-2">Analyzing 2Bn+ Data Points...</h2>
-            <p id="processing-text" class="text-gray-400 font-mono text-sm">Cross-referencing DLD Transactions...</p>
+            <h2 class="text-2xl font-display font-bold mb-2">Analyzing Profile...</h2>
+            <p id="processing-text" class="text-gray-400 font-mono text-sm">Comparing Strategy against 2Bn+ Data Points...</p>
         </div>
 
-        <!-- VIEW 4: RESULTS DASHBOARD (Updated) -->
-        <div id="results-view" class="w-full max-w-6xl mx-auto hidden opacity-0 transition-opacity duration-500">
+        <!-- VIEW 5: RESULTS DASHBOARD -->
+        <div id="results-view" class="w-full max-w-6xl mx-auto hidden opacity-0 transition-opacity duration-500 py-12">
             <div class="grid lg:grid-cols-3 gap-8">
-                
                 <!-- Left: Score -->
                 <div class="glass-panel rounded-3xl p-8 lg:col-span-1 flex flex-col items-center text-center">
-                    <h3 class="text-gray-400 text-sm uppercase tracking-widest mb-4">Your Investor Profile</h3>
+                    <h3 class="text-gray-400 text-sm uppercase tracking-widest mb-4">Your Readiness Score</h3>
                     <div class="relative w-40 h-40 mb-6 flex items-center justify-center">
                         <svg class="w-full h-full transform -rotate-90">
                             <circle cx="80" cy="80" r="70" stroke="#1f2937" stroke-width="10" fill="none"/>
@@ -307,26 +396,26 @@
                             <span class="text-xs text-gray-500">/ 100</span>
                         </div>
                     </div>
-                    <h2 id="result-title" class="text-2xl font-bold text-white mb-2">The Unprepared Buyer</h2>
-                    <p id="result-desc" class="text-sm text-gray-400 mb-6">You have strong ambition but high exposure to market risks.</p>
+                    <h2 id="result-title" class="text-2xl font-bold text-white mb-2">Strategy Audit Complete</h2>
+                    <p id="result-desc" class="text-sm text-gray-400 mb-6">Based on your answers, we have identified key areas to improve before you invest.</p>
                     <div class="w-full h-[200px] relative">
                         <canvas id="radarChart"></canvas>
                     </div>
                 </div>
 
-                <!-- Center: Diagnosis & Action Plan (Updated) -->
+                <!-- Center: Diagnosis & Action Plan -->
                 <div class="lg:col-span-2 space-y-6">
-                    <div id="status-banner" class="rounded-xl p-6 bg-red-500/10 border border-red-500/20 flex items-start gap-4">
-                        <div class="p-2 bg-red-500/20 rounded-lg text-red-400 shrink-0">
-                            <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                    <div id="status-banner" class="rounded-xl p-6 bg-blue-500/10 border border-blue-500/20 flex items-start gap-4">
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-400 shrink-0">
+                            <i data-lucide="info" class="w-6 h-6"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-white text-lg">Critical Risk Detected</h4>
-                            <p class="text-gray-400 text-sm mt-1">Your strategy lacks real-time valuation data. In the current market, this usually leads to overpaying by 8-12%.</p>
+                            <h4 class="font-bold text-white text-lg">Analysis Complete</h4>
+                            <p class="text-gray-400 text-sm mt-1">We have analyzed your investment profile. Your specific goals require a tailored data approach to avoid common market pitfalls.</p>
                         </div>
                     </div>
 
-                    <!-- NEW: The Prop-AI Advantage Section -->
+                    <!-- Prop-AI Advantage Section -->
                     <div class="glass-panel rounded-2xl p-8 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-[#025EE1]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                         <h3 class="font-display text-xl font-bold mb-4 text-white">Why Invest with Prop-AI?</h3>
@@ -358,8 +447,8 @@
                             <div class="flex gap-4">
                                 <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#025EE1] flex items-center justify-center font-bold text-sm">1</div>
                                 <div>
-                                    <h5 class="font-bold text-white">Validate your Budget</h5>
-                                    <p class="text-sm text-gray-400 mt-1">You mentioned not checking hidden fees. Download our "Dubai Purchase Cost Calculator" to avoid surprises.</p>
+                                    <h5 class="font-bold text-white">Review Your Profile with a Specialist</h5>
+                                    <p class="text-sm text-gray-400 mt-1">Your answers indicate specific needs regarding financing and location. Let's validate your strategy with real-time data.</p>
                                 </div>
                             </div>
                             <div class="flex gap-4">
@@ -372,7 +461,7 @@
                         </div>
                     </div>
 
-                    <!-- Contact & CTA (Updated) -->
+                    <!-- Contact & CTA -->
                     <div class="flex flex-col gap-4">
                         <a href="https://wa.me/971562450103" target="_blank" class="w-full py-5 bg-[#025EE1] text-white font-bold rounded-xl hover:bg-blue-600 transition flex items-center justify-center gap-3 shadow-[0_0_30px_-5px_rgba(2,94,225,0.5)] transform hover:scale-[1.02]">
                             <i data-lucide="calendar-check"></i> Set a Meeting with a Specialist
@@ -381,7 +470,6 @@
                         <div class="flex flex-col sm:flex-row gap-4 items-stretch">
                             <div class="hidden sm:flex items-center gap-3 pl-2">
                                 <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-[#025EE1] shrink-0 bg-gray-800">
-                                     <!-- AGENT IMAGE HOLDER: Name your file "agent.jpg" -->
                                      <img src="agent.jpg" alt="Steve" class="w-full h-full object-cover" onerror="this.style.display='none'">
                                      <div class="w-full h-full flex items-center justify-center text-[#025EE1]"><i data-lucide="user"></i></div>
                                 </div>
@@ -398,12 +486,6 @@
                                 <i data-lucide="message-circle"></i> WhatsApp
                             </a>
                         </div>
-                    </div>
-                    
-                    <div class="text-center pt-2">
-                         <a href="mailto:steve.nooshinfar@prop-ai.com" class="text-gray-400 text-sm hover:text-white transition flex items-center justify-center gap-2">
-                            <i data-lucide="mail" class="w-4 h-4"></i> steve.nooshinfar@prop-ai.com
-                         </a>
                     </div>
                 </div>
             </div>
@@ -431,16 +513,7 @@
                         <li>
                             <strong class="text-white">DLD Verified:</strong> We cross-reference every listing against official Dubai Land Department transaction records to ensure price accuracy.
                         </li>
-                        <li>
-                            <strong class="text-white">Fake Listing Remover:</strong> Our AI scans 149k+ weekly listings and automatically removes non-compliant or "ghost" ads so you only see what is real.
-                        </li>
-                        <li>
-                            <strong class="text-white">Investment Scoring:</strong> Every property is scored on Capital Appreciation potential and Rental Yield ROI using our proprietary predictive models.
-                        </li>
                     </ul>
-                    <div class="mt-6 pt-6 border-t border-white/10 text-center">
-                        <p class="text-xs text-gray-500">© 2025 Prop-AI Tech Ltd. All rights reserved.</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -469,19 +542,15 @@
             geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
             const material = new THREE.PointsMaterial({
                 size: 0.02,
-                color: 0x025EE1, // Updated to brand blue
+                color: 0x025EE1,
                 transparent: true,
                 opacity: 0.8
             });
 
             const particlesMesh = new THREE.Points(geometry, material);
             scene.add(particlesMesh);
-
-            // Connecting Lines (Optional visually, keeps it clean without)
-            
             camera.position.z = 3;
 
-            // Mouse Interaction
             let mouseX = 0;
             let mouseY = 0;
             
@@ -492,14 +561,10 @@
 
             const animate = () => {
                 requestAnimationFrame(animate);
-                
                 particlesMesh.rotation.y += 0.001;
                 particlesMesh.rotation.x += 0.001;
-
-                // Subtle parallax
                 particlesMesh.rotation.x += mouseY * 0.05;
                 particlesMesh.rotation.y += mouseX * 0.05;
-
                 renderer.render(scene, camera);
             };
 
@@ -512,138 +577,211 @@
             });
         };
 
-        // --- MODAL LOGIC ---
-        function openModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.add('opacity-100');
-            }, 10);
-        }
-
-        function closeModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.remove('opacity-100');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        }
-
-        // --- QUIZ DATA ---
-        const questions = [
-            // Phase 1: Financial (Weight: High)
-            {
-                id: 1,
-                category: "Finance",
-                text: "Have you set aside extra budget for government fees (approx 6-7%), or are you looking at the property price as the total cost?",
-                options: [
-                    { text: "Yes, I have budgeted for fees", value: 10, type: "good" },
-                    { text: "I thought the price was the total cost", value: 0, type: "bad" }
-                ]
-            },
-            {
-                id: 2,
-                category: "Finance",
-                text: "If you found the perfect home today, are your funds liquid and ready for a deposit (10%)?",
-                options: [
-                    { text: "Yes, ready immediately", value: 10, type: "good" },
-                    { text: "No, I need to sell/move money first", value: 2, type: "bad" }
-                ]
-            },
-            {
-                id: 3,
-                category: "Finance",
-                text: "Have you spoken to a bank to get a pre-approval or confirm your budget?",
-                options: [
-                    { text: "Yes, I have confirmation", value: 10, type: "good" },
-                    { text: "No, not yet", value: 0, type: "bad" },
-                    { text: "I am a Cash Buyer", value: 10, type: "good" }
-                ]
-            },
-            // Phase 2: Pain Points (Weight: Medium)
-            {
-                id: 4,
-                category: "Market",
-                text: "Are you worried that online listings might be fake or priced incorrectly?",
-                options: [
-                    { text: "Yes, it's very frustrating", value: 5, type: "pain" }, // Score implies they need us
-                    { text: "No, I trust what I see", value: 0, type: "naive" }
-                ]
-            },
-            {
-                id: 5,
-                category: "Market",
-                text: "Do you know the fair market price per sq.ft for your target area?",
-                options: [
-                    { text: "Yes, I have data", value: 10, type: "good" },
-                    { text: "No, I rely on the seller's price", value: 0, type: "bad" }
-                ]
-            },
-            // Phase 3: Strategy (Weight: Medium)
-            {
-                id: 6,
-                category: "Strategy",
-                text: "Are you managing this search alone, or do you have a trusted expert helping you?",
-                options: [
-                    { text: "Doing it myself", value: 0, type: "pain" },
-                    { text: "I have help", value: 5, type: "neutral" }
-                ]
-            },
-            {
-                id: 7,
-                category: "Strategy",
-                text: "What is your main goal for this property?",
-                options: [
-                    { text: "To Live In (End User)", value: 5, type: "segment" },
-                    { text: "Investment Returns", value: 5, type: "segment" }
-                ]
-            },
-            {
-                id: 8,
-                category: "Strategy",
-                text: "How much time do you spend scrolling property sites per week?",
-                options: [
-                    { text: "Less than 1 hour", value: 10, type: "good" },
-                    { text: "Way too much time!", value: 0, type: "pain" }
-                ]
-            },
-            {
-                id: 9,
-                category: "Strategy",
-                text: "If we found a 5% below-market deal today, would you act?",
-                options: [
-                    { text: "Yes, absolutely", value: 10, type: "urgent" },
-                    { text: "No, just looking", value: 0, type: "cold" }
-                ]
-            }
-        ];
-
-        // --- APP LOGIC ---
+        // --- APP STATE ---
         let currentStep = 0;
         let score = 0;
         let answers = [];
         let isNavigating = false;
 
-        // DOM Elements
+        // --- QUESTIONS DATA ---
+        const questions = [
+            {
+                id: 1,
+                text: "Have you researched Dubai's property ownership laws for foreign investors?",
+                type: "radio",
+                options: [
+                    { text: "Yes, I understand freehold, leasehold, and foreign ownership zones", value: 10 },
+                    { text: "I know the basics but need more details", value: 5 },
+                    { text: "No, this is new to me", value: 0 }
+                ]
+            },
+            {
+                id: 2,
+                text: "Do you have a clear investment strategy for Dubai property?",
+                type: "radio",
+                options: [
+                    { text: "Yes, I know whether I'm focused on capital growth, rental income, or both", value: 10 },
+                    { text: "I have some ideas but haven't finalized my approach", value: 5 },
+                    { text: "No, I'm still exploring options", value: 0 }
+                ]
+            },
+            {
+                id: 3,
+                text: "Do you understand the pros and cons of off-plan properties versus ready properties in Dubai?",
+                type: "radio",
+                options: [
+                    { text: "Yes, I know the differences and which suits my goals", value: 10 },
+                    { text: "I understand the basics but need more guidance", value: 5 },
+                    { text: "No, I'd like to learn more", value: 0 }
+                ]
+            },
+            {
+                id: 4,
+                text: "Have you explored financing options for Dubai property as a UK investor?",
+                type: "radio",
+                options: [
+                    { text: "Yes, I know my options (cash purchase, UAE mortgages, UK financing)", value: 10 },
+                    { text: "I've done some research but need clarity", value: 5 },
+                    { text: "No, I'm not sure what's available", value: 0 }
+                ]
+            },
+            {
+                id: 5,
+                text: "Do you have a planned exit strategy?",
+                type: "radio",
+                options: [
+                    { text: "Yes, I have a 3-5+ year investment horizon", value: 10 },
+                    { text: "I'm thinking 1-2 years", value: 5 },
+                    { text: "No, I'm flexible/unsure", value: 0 }
+                ]
+            },
+            {
+                id: 6,
+                text: "Have you compared Dubai to other international property markets?",
+                type: "radio",
+                options: [
+                    { text: "Yes, I've analyzed Dubai against other options (Portugal, Spain, US, etc.)", value: 10 },
+                    { text: "I've looked at a few markets but not in depth", value: 5 },
+                    { text: "No, Dubai is my primary focus right now", value: 10 }
+                ]
+            },
+            {
+                id: 7,
+                text: "Are you aware of property or project specific offering in Dubai?",
+                type: "radio",
+                options: [
+                    { text: "Yes, I have professional advice lined up", value: 10 },
+                    { text: "I plan to get advice before purchasing", value: 5 },
+                    { text: "No, I haven't considered this yet", value: 0 }
+                ]
+            },
+            {
+                id: 8,
+                text: "Have you visited Dubai or thoroughly researched specific areas and communities?",
+                type: "radio",
+                options: [
+                    { text: "Yes, I've visited and/or researched specific locations", value: 10 },
+                    { text: "I have some knowledge but need deeper insights", value: 5 },
+                    { text: "No, I'm early in my research", value: 0 }
+                ]
+            },
+            // INTERSTITIAL
+            {
+                id: "intro",
+                type: "interstitial",
+                text: "Almost done!",
+                subtext: "Now tell us about your specific situation and goals."
+            },
+            {
+                id: 9,
+                text: "Which best describes your current property investment situation?",
+                type: "radio",
+                options: [
+                    { text: "First-time property investor", value: 0 },
+                    { text: "Experienced UK property investor looking to diversify", value: 0 },
+                    { text: "Expanding Dubai property portfolio", value: 0 },
+                    { text: "Looking to relocate/establish base in UAE", value: 0 },
+                    { text: "High-net-worth individual seeking asset diversification", value: 0 },
+                    { text: "Returning to Dubai", value: 0 },
+                    { text: "Family office/trust representative", value: 0 },
+                    { text: "Portfolio liquidator (selling UK, buying Dubai)", value: 0 }
+                ]
+            },
+            // Conditional follow up will be injected dynamically if needed, or handled via logic
+            // For simplicity in this single file, we will add it as Q9b but hide/skip it if not relevant
+            {
+                id: "9b",
+                text: "How many properties do you currently own for investment purposes?",
+                type: "radio",
+                condition: (prevAnswer) => !prevAnswer.includes("First-time"), // Show if NOT first time
+                options: [
+                    { text: "0 (This would be my first)", value: 0 },
+                    { text: "1-2 properties", value: 0 },
+                    { text: "3-5 properties", value: 0 },
+                    { text: "6+ properties", value: 0 }
+                ]
+            },
+            {
+                id: 10,
+                text: "What would you most like to achieve in the next 90 days?",
+                type: "radio",
+                options: [
+                    { text: "Secure an off-plan investment property", value: 0 },
+                    { text: "Purchase a ready property for immediate rental income", value: 0 },
+                    { text: "Purchase a property to move into", value: 0 },
+                    { text: "Understand my Dubai investment options clearly", value: 0 },
+                    { text: "Connect with a trusted Dubai market expert", value: 0 }
+                ]
+            },
+            {
+                id: 11,
+                text: "What's your biggest concern or obstacle right now? (Select all that apply)",
+                type: "checkbox",
+                options: [
+                    { text: "Market knowledge gap", value: 0 },
+                    { text: "Unclear on financing options", value: 0 },
+                    { text: "Property management from abroad", value: 0 },
+                    { text: "Legal process and paperwork confusion", value: 0 },
+                    { text: "Too many options - analysis paralysis", value: 0 },
+                    { text: "Buying without seeing", value: 0 },
+                    { text: "Previous negative international investment experience", value: 0 },
+                    { text: "Finding trustworthy, non-pushy advisors", value: 0 }
+                ]
+            },
+            {
+                id: 12,
+                text: "What type of support are you looking for?",
+                type: "radio",
+                options: [
+                    { text: "DIY approach - resources to research myself", value: 0 },
+                    { text: "Guided advisory - curated recommendations", value: 0 },
+                    { text: "Full concierge service - end-to-end management", value: 0 }
+                ]
+            },
+            {
+                id: 13,
+                text: "Is there anything else you think we should know about your situation or goals?",
+                type: "text",
+                placeholder: "Type here...",
+                value: 0
+            }
+        ];
+
+        // --- DOM ELEMENTS ---
         const views = {
             landing: document.getElementById('landing-view'),
+            lead: document.getElementById('lead-view'),
             quiz: document.getElementById('quiz-view'),
             processing: document.getElementById('processing-view'),
             results: document.getElementById('results-view')
         };
-
         const container = document.getElementById('question-container');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
+        const nextBtn = document.getElementById('next-btn');
 
-        // Functions
+        // --- FUNCTIONS ---
+
+        function showLeadForm() {
+            views.lead.classList.remove('hidden');
+        }
+
+        function hideLeadForm() {
+            views.lead.classList.add('hidden');
+        }
+
+        function submitLead(e) {
+            e.preventDefault();
+            // In a real app, send data to backend here
+            hideLeadForm();
+            startQuiz();
+        }
+
         function startQuiz() {
             views.landing.classList.add('opacity-0', '-translate-y-10');
             setTimeout(() => {
                 views.landing.classList.add('hidden');
                 views.quiz.classList.remove('hidden');
-                
-                // Small delay to allow display:block to apply before opacity transition
                 setTimeout(() => {
                     views.quiz.classList.remove('opacity-0');
                     renderQuestion();
@@ -658,96 +796,145 @@
             }
 
             const q = questions[currentStep];
-            
-            // Update Progress
-            const progress = Math.round((currentStep / questions.length) * 100);
+
+            // Check Condition
+            if (q.condition) {
+                // Find previous relevant answer (usually from Q9 for Q9b)
+                // Simplified logic: Check the last answer in the array
+                const lastAnswer = answers[answers.length - 1]?.answer || "";
+                if (!q.condition(lastAnswer)) {
+                    // Skip this question
+                    currentStep++;
+                    renderQuestion();
+                    return;
+                }
+            }
+
+            // Update Progress (Approximate)
+            const progress = Math.min(100, Math.round(((currentStep) / questions.length) * 100));
             progressBar.style.width = `${progress}%`;
             progressText.innerText = `${progress}%`;
 
-            // HTML for Question
-            let html = `
-                <div class="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <span class="text-[#025EE1] text-xs font-bold tracking-widest uppercase mb-4 block">Question ${currentStep + 1} of ${questions.length}</span>
-                    <h2 class="text-2xl md:text-3xl font-bold mb-8 leading-tight">${q.text}</h2>
-                    <div class="space-y-4">
-            `;
+            // Reset Next Button
+            nextBtn.classList.add('hidden');
 
-            q.options.forEach((opt, idx) => {
+            // Render based on type
+            let html = `<div class="animate-in fade-in slide-in-from-bottom-4 duration-500">`;
+            
+            if (q.type === 'interstitial') {
                 html += `
-                    <button onclick="selectOption(${idx})" class="w-full text-left p-6 rounded-xl border border-white/10 bg-white/5 hover:bg-[#025EE1]/20 hover:border-[#025EE1] hover:scale-[1.02] transition-all group flex justify-between items-center">
-                        <span class="text-lg font-medium group-hover:text-white text-gray-300">${opt.text}</span>
-                        <div class="w-6 h-6 rounded-full border border-gray-500 group-hover:border-[#025EE1] flex items-center justify-center">
-                            <div class="w-3 h-3 bg-[#025EE1] rounded-full opacity-0 group-hover:opacity-100 transition"></div>
+                    <div class="text-center space-y-6 py-10">
+                        <div class="w-16 h-16 bg-[#025EE1] rounded-full flex items-center justify-center mx-auto text-white">
+                            <i data-lucide="check" class="w-8 h-8"></i>
                         </div>
-                    </button>
+                        <h2 class="text-3xl font-bold">${q.text}</h2>
+                        <p class="text-gray-300 text-lg">${q.subtext}</p>
+                        <button onclick="nextQuestion()" class="px-8 py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition">Continue</button>
+                    </div>
                 `;
-            });
-
-            html += `</div></div>`;
+            } else if (q.type === 'text') {
+                html += `
+                    <span class="text-[#025EE1] text-xs font-bold tracking-widest uppercase mb-4 block">Question ${currentStep + 1}</span>
+                    <h2 class="text-2xl font-bold mb-6">${q.text}</h2>
+                    <textarea id="text-input" rows="4" placeholder="${q.placeholder}"></textarea>
+                `;
+                nextBtn.classList.remove('hidden');
+            } else {
+                // Radio or Checkbox
+                html += `
+                    <span class="text-[#025EE1] text-xs font-bold tracking-widest uppercase mb-4 block">Question ${currentStep + 1}</span>
+                    <h2 class="text-2xl font-bold mb-6">${q.text}</h2>
+                    <div class="space-y-3">
+                `;
+                
+                q.options.forEach((opt, idx) => {
+                    if (q.type === 'radio') {
+                        html += `
+                            <button onclick="selectOption(${idx})" class="w-full text-left p-5 rounded-xl border border-white/10 bg-white/5 hover:bg-[#025EE1]/20 hover:border-[#025EE1] transition-all group flex justify-between items-center">
+                                <span class="text-md font-medium text-gray-300 group-hover:text-white">${opt.text}</span>
+                                <div class="w-5 h-5 rounded-full border border-gray-500 group-hover:border-[#025EE1] flex items-center justify-center">
+                                    <div class="w-2.5 h-2.5 bg-[#025EE1] rounded-full opacity-0 group-hover:opacity-100 transition"></div>
+                                </div>
+                            </button>
+                        `;
+                    } else if (q.type === 'checkbox') {
+                        html += `
+                            <label class="w-full text-left p-5 rounded-xl border border-white/10 bg-white/5 hover:bg-[#025EE1]/20 hover:border-[#025EE1] transition-all group flex justify-between items-center cursor-pointer">
+                                <span class="text-md font-medium text-gray-300 group-hover:text-white">${opt.text}</span>
+                                <input type="checkbox" class="w-5 h-5 rounded border-gray-500 text-[#025EE1] focus:ring-[#025EE1] bg-transparent" value="${opt.text}">
+                            </label>
+                        `;
+                        nextBtn.classList.remove('hidden');
+                    }
+                });
+                html += `</div>`;
+            }
+            html += `</div>`;
             container.innerHTML = html;
+            lucide.createIcons();
         }
 
-        function selectOption(optionIndex) {
-            // Prevent double clicks or invalid state
-            if (isNavigating || !questions[currentStep]) return;
-
-            isNavigating = true; // Lock
-
-            const q = questions[currentStep];
-            const selected = q.options[optionIndex];
+        function selectOption(idx) {
+            if (isNavigating) return;
+            isNavigating = true;
             
-            score += selected.value;
-            answers.push({ question: q.text, answer: selected.text, type: selected.type });
+            const q = questions[currentStep];
+            const selected = q.options[idx];
+            
+            // Add score only for first 8 questions roughly
+            score += (selected.value || 0);
+            answers.push({ question: q.text, answer: selected.text });
+
+            setTimeout(() => {
+                currentStep++;
+                isNavigating = false;
+                renderQuestion();
+            }, 300);
+        }
+
+        function nextQuestion() {
+            const q = questions[currentStep];
+            
+            if (q.type === 'interstitial') {
+                currentStep++;
+                renderQuestion();
+                return;
+            }
+
+            if (q.type === 'text') {
+                const val = document.getElementById('text-input').value;
+                answers.push({ question: q.text, answer: val });
+            } else if (q.type === 'checkbox') {
+                const checked = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+                answers.push({ question: q.text, answer: checked.join(", ") });
+            }
 
             currentStep++;
             renderQuestion();
-
-            // Release lock after short delay to allow DOM to update and prevent double triggers
-            setTimeout(() => {
-                isNavigating = false;
-            }, 300);
         }
 
         function prevQuestion() {
             if(currentStep > 0) {
                 currentStep--;
+                // Simple rollback - strictly specific logic would require popping answers stack
+                answers.pop();
+                // Also need to handle skipping back over conditional questions logic if implemented robustly
+                // For this demo, simple decrement works visually
                 renderQuestion();
             }
         }
 
         function finishQuiz() {
-            // Show Contact Form (The "Big 5" from video strategy) - Simplified here for flow
-            // We will transition to "Processing"
             views.quiz.classList.add('opacity-0');
-            
             setTimeout(() => {
                 views.quiz.classList.add('hidden');
                 views.processing.classList.remove('hidden');
                 views.processing.classList.add('flex');
                 
-                // Simulate AI Steps
-                const texts = [
-                    "Analyzing answers...",
-                    "Checking DLD Market Data...",
-                    "Comparing against 28,000 listings...",
-                    "Generating Strategic Roadmap..."
-                ];
-                
-                let textIdx = 0;
-                const textEl = document.getElementById('processing-text');
-                
-                const interval = setInterval(() => {
-                    if(textIdx < texts.length) {
-                        textEl.innerText = texts[textIdx];
-                        textIdx++;
-                    }
-                }, 800);
-
+                // Processing Animation
                 setTimeout(() => {
-                    clearInterval(interval);
                     showResults();
-                }, 3500);
-
+                }, 3000);
             }, 500);
         }
 
@@ -755,55 +942,26 @@
             views.processing.classList.add('hidden');
             views.processing.classList.remove('flex');
             views.results.classList.remove('hidden');
-            
             setTimeout(() => {
                 views.results.classList.remove('opacity-0');
+                renderRadarChart();
                 
                 // Animate Score
-                const totalPossible = questions.length * 10; // Rough max
-                // Normalize score to 100
-                const finalScore = Math.min(Math.round((score / 75) * 100), 98); 
-                
-                let currentScore = 0;
+                const finalScore = Math.min(Math.round((score / 80) * 100), 98); // Approx normalization
+                let curr = 0;
                 const scoreEl = document.getElementById('final-score');
-                const scoreCircle = document.getElementById('score-circle');
-                
-                // Set text / colors based on score
-                const title = document.getElementById('result-title');
-                const desc = document.getElementById('result-desc');
-                const banner = document.getElementById('status-banner');
-
-                if (finalScore > 80) {
-                    title.innerText = "The Strategic Investor";
-                    desc.innerText = "You are well prepared, but the market moves fast. Use Prop-AI to maintain your edge.";
-                    banner.className = "rounded-xl p-6 bg-green-500/10 border border-green-500/20 flex items-start gap-4";
-                    banner.innerHTML = `<div class="p-2 bg-green-500/20 rounded-lg text-green-400 shrink-0"><i data-lucide="check-circle" class="w-6 h-6"></i></div><div><h4 class="font-bold text-white text-lg">High Readiness</h4><p class="text-gray-400 text-sm mt-1">You are ready to deploy capital. Our AI can help you spot off-market deals before they hit the portals.</p></div>`;
-                } else if (finalScore > 50) {
-                    title.innerText = "The Aspiring Investor";
-                    desc.innerText = "You have the ambition, but gaps in your data. You risk overpaying without verified insights.";
-                } else {
-                    title.innerText = "The Unprepared Buyer";
-                    desc.innerText = "Your current strategy has significant risks. Do not buy until you fix your data sources.";
-                }
-
-                // Animate numbers
-                const counter = setInterval(() => {
-                    if(currentScore < finalScore) {
-                        currentScore++;
-                        scoreEl.innerText = currentScore;
+                const interval = setInterval(() => {
+                    if(curr < finalScore) {
+                        curr++;
+                        scoreEl.innerText = curr;
                     } else {
-                        clearInterval(counter);
+                        clearInterval(interval);
                     }
                 }, 20);
-
-                // Animate Circle Stroke
-                const circumference = 2 * Math.PI * 70; // r=70
-                const offset = circumference - (finalScore / 100) * circumference;
-                scoreCircle.style.strokeDashoffset = offset;
-
-                // Render Chart
-                renderRadarChart();
-                lucide.createIcons();
+                
+                const circle = document.getElementById('score-circle');
+                const offset = (2 * Math.PI * 70) * (1 - (finalScore / 100));
+                circle.style.strokeDashoffset = offset;
 
             }, 100);
         }
@@ -813,30 +971,20 @@
             new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: ['Financial Readiness', 'Market Data', 'Strategy', 'Speed', 'Risk Mgmt'],
+                    labels: ['Knowledge', 'Strategy', 'Finance', 'Market', 'Risk'],
                     datasets: [{
                         label: 'Your Profile',
-                        data: [
-                            score > 60 ? 8 : 4, 
-                            score > 40 ? 7 : 3, 
-                            score > 50 ? 6 : 2, 
-                            score > 70 ? 9 : 3, 
-                            score > 30 ? 5 : 2
-                        ],
-                        backgroundColor: 'rgba(2, 94, 225, 0.2)', // Updated blue alpha
-                        borderColor: '#025EE1', // Updated blue
+                        data: [7, 6, 8, 5, 6], // Dummy data for visual
+                        backgroundColor: 'rgba(2, 94, 225, 0.2)',
+                        borderColor: '#025EE1',
                         pointBackgroundColor: '#00D4FF',
-                        borderWidth: 2,
-                        pointRadius: 3
-                    },
-                    {
-                        label: 'Pro Investor Benchmark',
-                        data: [9, 9, 8, 9, 10], // The "Perfect" score to compare against
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                        borderColor: 'rgba(255, 255, 255, 0.2)',
-                        borderWidth: 1,
-                        pointRadius: 0,
-                        borderDash: [5, 5]
+                        borderWidth: 2
+                    }, {
+                        label: 'Pro Benchmark',
+                        data: [9, 9, 9, 9, 9],
+                        backgroundColor: 'transparent',
+                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderDash: [5,5]
                     }]
                 },
                 options: {
@@ -848,18 +996,21 @@
                             ticks: { display: false, backdropColor: 'transparent' }
                         }
                     },
-                    plugins: {
-                        legend: { 
-                            labels: { color: 'white', font: { size: 10 } },
-                            position: 'bottom'
-                        }
-                    },
+                    plugins: { legend: { display: false } },
                     maintainAspectRatio: false
                 }
             });
         }
 
-        // Initialize
+        // --- MODAL ---
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // Init
         document.addEventListener('DOMContentLoaded', () => {
             initThreeJS();
             lucide.createIcons();
